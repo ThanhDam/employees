@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 
 import com.employee.model.DepartmentEmployee;
 import com.employee.model.Employee;
@@ -26,45 +28,44 @@ public class EmployeeRepositoryTest {
 	
 	@Test
 	protected void testGetAll(){
-		List<Employee> lstEmploy = employeeRepo.findAll();
-		assertThat(lstEmploy.size()).isGreaterThan(0);
+		Page<Employee> pageEmploy = employeeRepo.findAll(PageRequest.of(0, 10));
+		assertThat(pageEmploy.getContent().size()).isEqualTo(10);
 	}
 	
 	@Test
 	protected void testGetByRole() {
-		List<EmployeeRole> lstEmploy = employeeRepo.findByRole("01");
-		assertThat(lstEmploy.size()).isGreaterThan(0);
-		assertThat(lstEmploy.get(0).getId()).isEqualTo("5000000001");
+		Page<EmployeeRole> pageEmploy = employeeRepo.findByRole("04", PageRequest.of(0, 10));
+		assertThat(pageEmploy.getContent().size()).isEqualTo(10);
 	}
 	
 	@Test
 	protected void testGetAllInfoEmployees() {
-		List<EmployeeInfo> lstEmploy = employeeRepo.findAllInfo();
-		assertThat(lstEmploy.size()).isGreaterThan(0);
+		Page<EmployeeInfo> pageEmploy = employeeRepo.findAllInfo(PageRequest.of(0, 10));
+		assertThat(pageEmploy.getContent().size()).isEqualTo(10);
 	}
 	
 	@Test
 	protected void testGetEmployeeByTeam() {
-		List<TeamEmployee> lstEmployee = employeeRepo.findEmployeeByTeam("BRI");
-		assertThat(lstEmployee.size()).isGreaterThan(0);
+		Page<TeamEmployee> pageEmployee = employeeRepo.findEmployeeByTeam("BRI", PageRequest.of(0, 3));
+		assertThat(pageEmployee.getContent().size()).isEqualTo(3);
 	}
 	
 	@Test
 	protected void testGetEmployeeByDepart() {
-		List<DepartmentEmployee> lstEmploy = employeeRepo.findEmployeeByDepartment("LIF");
-		assertThat(lstEmploy.size()).isGreaterThan(0);
+		Page<DepartmentEmployee> pageEmploy = employeeRepo.findEmployeeByDepartment("LIFINSUR", PageRequest.of(0, 3));
+		assertThat(pageEmploy.getContent().size()).isEqualTo(3);
 	}
 	
 	@Test
 	protected void testGetEmployeesByDepartmentRole() {
-		List<Employee> lstEmployees = employeeRepo.findEmployeeByDepartmentRole("PNC", "02");
-		assertThat(lstEmployees.size()).isGreaterThan(0);
+		Page<Employee> pageEmployees = employeeRepo.findEmployeeByDepartmentRole("PNC", "02", PageRequest.of(0, 1));
+		assertThat(pageEmployees.getContent().size()).isEqualTo(1);
 	}
 	
 	@Test
 	protected void testGetEmployeesByTeamRole() {
-		List<Employee> lstEmploy = employeeRepo.findEmployeeByTeamRole("SIT", "03");
-		assertThat(lstEmploy.size()).isGreaterThan(0);
+		Page<Employee> pageEmploy = employeeRepo.findEmployeeByTeamRole("SIT", "04", PageRequest.of(0, 4));
+		assertThat(pageEmploy.getContent().size()).isEqualTo(4);
 	}
 	
 	@Test

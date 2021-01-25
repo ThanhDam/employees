@@ -5,6 +5,8 @@ import java.util.List;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,9 @@ import com.employee.repository.RoleRepository;
 
 @RestController
 public class EmployeeApiController {
+	private final static int MIN_LIMIT = 0;
+	private final static int MAX_LIMIT = 1500;
+	
 	@Autowired
 	EmployeeRepository employeeRepo;
 	@Autowired
@@ -33,39 +38,46 @@ public class EmployeeApiController {
 	
 	@GetMapping(value = "/employees")
 	protected List<Employee> getAll(){
-		return employeeRepo.findAll();
+		Page<Employee> pageEmploy = employeeRepo.findAll(PageRequest.of(MIN_LIMIT, MAX_LIMIT));
+		return pageEmploy.getContent();
 	}
 	
 	@GetMapping(value = "/employees/roles/{id}")
 	protected List<EmployeeRole> getByRole(@PathVariable String id){
-		return employeeRepo.findByRole(id);
+		Page<EmployeeRole> pageEmploy = employeeRepo.findByRole(id, PageRequest.of(MIN_LIMIT, MAX_LIMIT));
+		return pageEmploy.getContent();
 	}
 	
 	@GetMapping(value = "/employeesinfo")
 	protected List<EmployeeInfo> getAllInfoEmployees(){
-		return employeeRepo.findAllInfo();
+		Page<EmployeeInfo> pageEmploy = employeeRepo.findAllInfo(PageRequest.of(MIN_LIMIT, MAX_LIMIT));
+		return pageEmploy.getContent();
 	}
 	
 	@GetMapping(value = "employees/teams/{id}")
 	protected List<TeamEmployee> getEmployeeByTeam(@PathVariable String id){
-		return employeeRepo.findEmployeeByTeam(id);
+		Page<TeamEmployee> pageEmploy = employeeRepo.findEmployeeByTeam(id, PageRequest.of(MIN_LIMIT, MAX_LIMIT));
+		return pageEmploy.getContent();
 	}
 	
 	@GetMapping(value = "/employees/departments/{id}")
 	protected List<DepartmentEmployee> getEmployeeByDepart(@PathVariable String id){
-		return employeeRepo.findEmployeeByDepartment(id);
+		Page<DepartmentEmployee> pageEmploy = employeeRepo.findEmployeeByDepartment(id, PageRequest.of(MIN_LIMIT, MAX_LIMIT));
+		return pageEmploy.getContent();
 	}
 	
 	@GetMapping(value = "/employees/departments/{depart}/{role}")
 	protected List<Employee> getEmployeesByDepartmentRole(@PathVariable(name = "depart")String departId, 
 			@PathVariable(name = "role")String roleId){
-		return employeeRepo.findEmployeeByDepartmentRole(departId, roleId);
+		Page<Employee> pageEmploy = employeeRepo.findEmployeeByDepartmentRole(departId, roleId, PageRequest.of(MIN_LIMIT, MAX_LIMIT));
+		return pageEmploy.getContent();
 	}
 	
 	@GetMapping(value = "/employees/teams/{team}/{role}")
 	protected List<Employee> getEmployeesByTeamRole(@PathVariable(name = "team")String teamId,
 			@PathVariable(name = "role")String roleId){
-		return employeeRepo.findEmployeeByTeamRole(teamId, roleId);
+		Page<Employee> pageEmploy = employeeRepo.findEmployeeByTeamRole(teamId, roleId, PageRequest.of(MIN_LIMIT, MAX_LIMIT));
+		return pageEmploy.getContent();
 	}
 	
 	@GetMapping(value = "/employees/{id}")
