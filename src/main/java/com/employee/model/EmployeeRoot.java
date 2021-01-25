@@ -40,8 +40,4 @@ public class EmployeeRoot {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
-	
-	
-	
-	
 }

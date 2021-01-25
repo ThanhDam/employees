@@ -20,7 +20,4 @@ public class TeamEmployee extends EmployeeRoot{
 		super(id, lastName, firstName, dob);
 		this.team = team;
 	}
-
-	
-	
 }

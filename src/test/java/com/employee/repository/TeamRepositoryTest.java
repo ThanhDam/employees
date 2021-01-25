@@ -11,7 +11,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import com.employee.model.Team;
-import com.employee.model.TeamMemberManagement;
 
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
@@ -61,5 +60,4 @@ public class TeamRepositoryTest {
 		Team teamDelete = teamRepo.findById("IGI").orElse(new Team());
 		assertThat(teamDelete.getTeamId()).isNull();
 	}
-	
 }

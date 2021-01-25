@@ -20,5 +20,4 @@ public class EmployeeRole extends EmployeeRoot {
 		super(id, lastName, firstName, dob);
 		this.role = role;
 	}
-	
 }

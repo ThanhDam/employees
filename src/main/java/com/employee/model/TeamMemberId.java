@@ -24,8 +24,4 @@ public class TeamMemberId implements Serializable{
 		this.teamId = teamId;
 		this.employeeId = employeeId;
 	}
-	
-	
-	
-	
 }
